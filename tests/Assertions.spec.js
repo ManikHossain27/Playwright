@@ -23,9 +23,21 @@ test('Assertions', async({page})=>{
     const regButton = await page.locator("id='register-button'");
     await expect(regButton).toHaveAttribute('type', 'submit');
 
-    
-    
-    
+    await page.expect( await page.locator('.page-title h1')).toHaveText('Register');    //full text
+
+    await expect( await page.locator('.page-title h1')).toContainText('Reg');   //partial text
+
+    const emailInput = await page.locator('#Email');
+    await emailInput.fill('test@demo.com');
+    await expect(emailInput).toHaveValue('test#demo.com');
+
+    const options = await page.locator('select[name="DateOfBirthMonth"] option');
+    await expect(options).toHaveCount(13);
 
 
+    //const options = await page.locator('select[name="DateOfBirthMonth"] option');
+    await expect(options).not.toHaveCount(12);
+    
+
+    await page.close;
 })
